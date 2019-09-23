@@ -110,21 +110,13 @@
 		parameterType="com.example.spring_mybatis.model.EmpInfo">
 		update emp_info
 		set is_del = '1'
-		where emp_id =
-		#{empId,jdbcType=VARCHAR}
+		where emp_id = #{empId,jdbcType=VARCHAR}
 	</update>
 
-
-	<select id="selectEmpNumRepeat" resultType="java.lang.String" parameterType="java.lang.String">
-		select
-		emp_num from
-		emp_info
-		where emp_num =#{empNum,jdbcType=VARCHAR}
+	<select id="selectEmpNumRepeat" parameterType="java.lang.String">
+		select emp_num from emp_info
+		where is_del = '0' and emp_num = #{empNum,jdbcType=VARCHAR}
 	</select>
-
-
-
-
 
 
 
