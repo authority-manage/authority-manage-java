@@ -78,7 +78,7 @@ public class GroupInfoController extends BaseController{
 	@RequestMapping(value = "/selectAllGroupInfo", method = RequestMethod.GET)
 	public ResultDTO selectAllGroupInfo() {
 		List<GroupInfoWithBLOBs> list = serviceFacade.getGroupInfoService().selectAllGroupInfo();
-		return success(list);
+		return success(list); 
 	}
 	@RequestMapping(value = "/selectByPrimaryKey", method = RequestMethod.GET)
 	public ResultDTO selectByPrimaryKey(@RequestParam("groupId") Integer groupId) {
