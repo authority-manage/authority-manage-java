@@ -52,7 +52,7 @@ public class JGroupModelInfoController extends BaseController {
 
 		}
 		return success(result);
-	}
+	} 
 
 	@RequestMapping(value = "/updateAuthorizationByGroupId", method = RequestMethod.POST)
 	public ResultDTO updateAuthorizationByGroupId(@RequestParam("authorization") String authorization,
