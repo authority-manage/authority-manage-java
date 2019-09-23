@@ -26,6 +26,66 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/userInfo")
 public class UserInfoController extends BaseController {
+	@RequestMapping(value = "/updateByUserIdDelete", method = RequestMethod.POST)
+	  public ResultDTO updateByUserIdDelete(@RequestBody UserInfoWithBLOBs userInfo) {
+	    int result = 0;
+	    UserInfoWithBLOBs list = new UserInfoWithBLOBs();
+	    String groupIdTwo = userInfo.getGroupId();
+	    userInfo.setGroupId(userInfo.getGroupId());
+	    if (userInfo.getUserId().contains(",")) {
+	      // 多个user
+	      String[] arr = userInfo.getUserId().split(",");
+	      for (int i = 0; i < arr.length; i++) {
+	        list = serviceFacade.getUserInfoService().selectByPrimaryKey(arr[i]);
+	        userInfo.setUserId(arr[i]);
+	        userInfo.setGroupId(groupIdTwo);
+	        if (list.getGroupId().contains(",")) {
+	          String getGroupId = "";
+	          getGroupId = list.getGroupId().replace(userInfo.getGroupId(), "");
+	          if (getGroupId.charAt(0) == ',') {
+	            getGroupId = getGroupId.substring(1, getGroupId.length());
+	          }
+	          if (getGroupId.charAt(getGroupId.length() - 1) == ',') {
+	            getGroupId = getGroupId.substring(0, getGroupId.length() - 1);
+	          }
+	          getGroupId = getGroupId.replaceAll(",,", ",");
+	          userInfo.setGroupId(getGroupId);
+	          result = serviceFacade.getUserInfoService().updateByPrimaryKeySelective(userInfo);
+
+	        } else {
+	          userInfo.setGroupId(list.getGroupId().replace(userInfo.getGroupId(), ""));
+	          result = serviceFacade.getUserInfoService().updateByPrimaryKeySelective(userInfo);
+
+	        }
+
+	      }
+
+	    } else {
+	      // 一个user
+	      list = serviceFacade.getUserInfoService().selectByPrimaryKey(userInfo.getUserId());
+	      if (list.getGroupId().contains(",")) {
+	        String getGroupId = "";
+	        getGroupId = list.getGroupId().replace(userInfo.getGroupId(), "");
+	        if (getGroupId.charAt(0) == ',') {
+	          getGroupId = getGroupId.substring(1, getGroupId.length());
+	        }
+	        if (getGroupId.charAt(getGroupId.length() - 1) == ',') {
+	          getGroupId = getGroupId.substring(0, getGroupId.length() - 1);
+	        }
+	        getGroupId = getGroupId.replaceAll(",,", ",");
+	        userInfo.setGroupId(getGroupId);
+	        result = serviceFacade.getUserInfoService().updateByPrimaryKeySelective(userInfo);
+
+	      } else {
+	        userInfo.setGroupId(list.getGroupId().replace(userInfo.getGroupId(), ""));
+	        result = serviceFacade.getUserInfoService().updateByPrimaryKeySelective(userInfo);
+
+	      }
+
+	    }
+	    return success(result);
+
+	  }
 	@RequestMapping(value = "/updataByGroupIdDelete", method = RequestMethod.POST)
 	public ResultDTO updataByGroupIdDelete(@RequestBody GroupInfoWithBLOBs groupInfo) {
 		int result = 0;

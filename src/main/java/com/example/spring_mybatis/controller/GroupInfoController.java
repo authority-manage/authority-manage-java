@@ -88,6 +88,9 @@ public class GroupInfoController extends BaseController{
 	@RequestMapping(value = "/selectGroupInfoByGroupName", method = RequestMethod.GET)
 	public ResultDTO selectAllGroupInfoByGroupName(@RequestParam("groupName") String groupName) {
 		List<GroupInfo> list = serviceFacade.getGroupInfoService().selectGroupInfoByGroupName(groupName);
+		if(list.isEmpty()||list==null) {
+			return noData();
+		}
 		return success(list);
 	}
 	@RequestMapping(value = "/updateRoleId", method = RequestMethod.POST)
