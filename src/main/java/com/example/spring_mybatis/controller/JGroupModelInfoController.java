@@ -83,6 +83,7 @@ public class JGroupModelInfoController extends BaseController {
 
 			List<JGroupModelInfo> groupModelList = serviceFacade.getJGroupModelInfoService().selectModelInfo(groupId);
 			GroupInfoWithBLOBs groupInfo = serviceFacade.getGroupInfoService().selectByPrimaryKey(groupId);
+			List<JGroupModelInfo> f = new ArrayList<JGroupModelInfo>();
 			if (groupInfo.getRoleId().contains(",")) {
 
 				String[] roleIdArr = groupInfo.getRoleId().split(",");
@@ -127,7 +128,9 @@ public class JGroupModelInfoController extends BaseController {
 					}
 					item.setAuthorization(splitStr);
 				});
-				return success(groupModelList);
+				List<JGroupModelInfo> result = new ArrayList<JGroupModelInfo>();
+				f = toSort(groupModelList, result, 0);
+				return success(f);
 
 			} else {
 				if (groupInfo.getRoleId() == null || StringUtil.isEmpty(groupInfo.getRoleId())) {
@@ -172,11 +175,12 @@ public class JGroupModelInfoController extends BaseController {
 						}
 						item.setAuthorization(splitStr);
 					});
-
+					List<JGroupModelInfo> result = new ArrayList<JGroupModelInfo>();
+					 f = toSort(groupModelList, result, 0);
 				}
 			}
 
-			return success(groupModelList);
+			return success(f);
 		} else {
 			List<JGroupModelInfo> all = serviceFacade.getJGroupModelInfoService().selectModelInfoAll();
 			List<JGroupModelInfo> result = new ArrayList<JGroupModelInfo>();
