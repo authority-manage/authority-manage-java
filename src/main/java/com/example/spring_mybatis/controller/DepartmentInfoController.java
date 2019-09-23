@@ -40,11 +40,7 @@ public class DepartmentInfoController extends BaseController {
 		List<DepartmentInfo> result = serviceFacade.getDepartmentInfoService().selectAllDepartmentNameAll();
 		return success(result);
 	}
-//	@RequestMapping(value = "/selectAllDepartmentNameNoDel", method = RequestMethod.GET)
-//	public ResultDTO selectAllDepartmentNameNoDel() {
-//		List<DepartmentInfo> result = serviceFacade.getDepartmentInfoService().selectAllDepartmentNameNoDel();
-//		return success(result);
-//	}
+
 	@RequestMapping(value = "/selectByPrimaryKey", method = RequestMethod.GET)
 	public ResultDTO selectByPrimaryKey(@RequestParam("departmentId") String departmentId) {
 		List<DepartmentInfo> result = serviceFacade.getDepartmentInfoService().selectByPrimaryKey(departmentId);
