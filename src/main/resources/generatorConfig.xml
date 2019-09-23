@@ -16,7 +16,11 @@
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/manage_system?serverTimezone=UTC"
                         userId="root"
+<<<<<<< HEAD
                         password="yl0802">
+=======
+                        password="123456">
+>>>>>>> branch 'master' of https://github.com/authority-manage/authority-manage-java.git
         </jdbcConnection>
         <!--默认false
            Java type resolver will always use java.math.BigDecimal if the database column is of type DECIMAL or NUMERIC.

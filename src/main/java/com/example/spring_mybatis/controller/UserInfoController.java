@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/userInfo")
 public class UserInfoController extends BaseController {
 	@RequestMapping(value = "/updateByUserIdDelete", method = RequestMethod.POST)
+
 	  public ResultDTO updateByUserIdDelete(@RequestBody UserInfoWithBLOBs userInfo) {
 	    int result = 0;
 	    UserInfoWithBLOBs list = new UserInfoWithBLOBs();
@@ -86,6 +87,9 @@ public class UserInfoController extends BaseController {
 	    return success(result);
 
 	  }
+
+	
+
 	@RequestMapping(value = "/updataByGroupIdDelete", method = RequestMethod.POST)
 	public ResultDTO updataByGroupIdDelete(@RequestBody GroupInfoWithBLOBs groupInfo) {
 		int result = 0;

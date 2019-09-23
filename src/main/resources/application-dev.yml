@@ -6,7 +6,11 @@ server:
 spring:
   datasource:
     username: root
+<<<<<<< HEAD
     password: yl0802
+=======
+    password: 123456
+>>>>>>> branch 'master' of https://github.com/authority-manage/authority-manage-java.git
     url: jdbc:mysql://localhost:3306/manage_system?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
