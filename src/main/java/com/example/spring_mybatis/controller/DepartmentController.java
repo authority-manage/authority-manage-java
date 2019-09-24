@@ -1,5 +1,6 @@
 package com.example.spring_mybatis.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,51 +20,85 @@ import com.example.spring_mybatis.model.EmpInfo;
 @CrossOrigin
 @RestController
 @RequestMapping("/department")
-public class DepartmentController extends BaseController{
-	
-	//部门管理添加
+public class DepartmentController extends BaseController {
+	List<DepartmentInfo> son = new ArrayList<DepartmentInfo>();
+	boolean check = true;
+	// 部门管理添加
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ResultDTO add (@RequestBody Department departmentInfo) {
-		int res = serviceFacade.getDepartmentService().insert(departmentInfo); 
-	    return success(res);
+	public ResultDTO add(@RequestBody Department departmentInfo) {
+		int res = serviceFacade.getDepartmentService().insert(departmentInfo);
+		return success(res);
 	}
-	
-	//部门管理查看
+
+	// 部门管理查看
 	@RequestMapping(value = "/selectByDepartmentId", method = RequestMethod.GET)
-    public ResultDTO selectByPrimaryKey (@RequestParam("departmentId") String departmentId) {
-        List<Department> departmentInfo = serviceFacade.getDepartmentService().selectByPrimaryKey(departmentId);
-        if (departmentInfo == null) {
-            return noData();
-        }
-        return success(departmentInfo);
-    }
-	
-	//部门管理修改
+	public ResultDTO selectByPrimaryKey(@RequestParam("departmentId") String departmentId) {
+		List<Department> departmentInfo = serviceFacade.getDepartmentService().selectByPrimaryKey(departmentId);
+		if (departmentInfo == null) {
+			return noData();
+		}
+		return success(departmentInfo);
+	}
+
+	// 部门管理修改
 	@RequestMapping(value = "/updateByDepartmentId", method = RequestMethod.POST)
-	public ResultDTO updateByPrimaryKey (@RequestBody Department departmentId) {
-        int res = serviceFacade.getDepartmentService().updateByPrimaryKey(departmentId);
-        return success(res);
-    }
-	
-	//部门管理删除（用修改来完成）
+	public ResultDTO updateByPrimaryKey(@RequestBody Department departmentId) {
+
+		int res = serviceFacade.getDepartmentService().updateByPrimaryKey(departmentId);
+		return success(res);
+
+	}
+
+	@RequestMapping(value = "/checkSon", method = RequestMethod.GET)
+	public ResultDTO checkSon(@RequestParam("departmentId") String departmentId,
+			@RequestParam String departmentId1) {
+		check = true;
+		son.clear();
+		dg(departmentId);
+		System.out.println(departmentId1 + " 我要修改的id");
+		son.forEach(item -> {
+			System.out.println(item.getDepartmentName() + item.getParentId() + "    子集父id");
+			if (item.getParentId().equals(departmentId1)) {
+				check = false;
+			}
+		});
+		if(check) {
+			return success(0);
+		}else {
+			return checkSon(0);
+		}
+		
+
+	}
+
+	public void dg(String departmentId) {
+		List<DepartmentInfo> allSon = serviceFacade.getDepartmentInfoService().selectByParentId(departmentId);
+		allSon.forEach(item -> {
+			son.add(item);
+			dg(item.getDepartmentId());
+		});
+
+	}
+
+	// 部门管理删除（用修改来完成）
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public ResultDTO deleteByPrimaryKey (@RequestBody Department departmentId) {
-        int res = serviceFacade.getDepartmentService().deleteByPrimaryKey(departmentId);
-        return success(res);
-    }
-	
-	//直接查询全部
+	public ResultDTO deleteByPrimaryKey(@RequestBody Department departmentId) {
+		int res = serviceFacade.getDepartmentService().deleteByPrimaryKey(departmentId);
+		return success(res);
+	}
+
+	// 直接查询全部
 	@RequestMapping(value = "/selectAll", method = RequestMethod.GET)
-    public ResultDTO selectAll () {
-        List<Department> departmentInfo = serviceFacade.getDepartmentService().selectAll();
-        return success(departmentInfo);
-    }
-	
-	//部门父子级排序
+	public ResultDTO selectAll() {
+		List<Department> departmentInfo = serviceFacade.getDepartmentService().selectAll();
+		return success(departmentInfo);
+	}
+
+	// 部门父子级排序
 	@RequestMapping(value = "/selectAllForParentIdDepartmentId", method = RequestMethod.GET)
-	public ResultDTO selectAllForParentIdDepartmentId () throws Exception {
+	public ResultDTO selectAllForParentIdDepartmentId() throws Exception {
 		List<Department> departmentInfo = serviceFacade.getDepartmentService().selectAllForParentIdDepartmentId();
 		return success(departmentInfo);
 	}
-	
+
 }

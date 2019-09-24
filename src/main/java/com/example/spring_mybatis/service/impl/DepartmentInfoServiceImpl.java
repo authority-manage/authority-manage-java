@@ -24,6 +24,10 @@ public class DepartmentInfoServiceImpl implements IDepartmentInfoService{
 		return connectDepartmentInfoMapper.selectAllDepartmentNameAll();
 	}
 	@Override
+	public  List<DepartmentInfo> selectByParentId(String department){
+		return departmentInfoMapper.selectByParentId(department);
+	}
+	@Override
 	public List<DepartmentInfo> selectAllDepartmentName(){
 		return connectDepartmentInfoMapper.selectAllDepartmentName();
 	}
