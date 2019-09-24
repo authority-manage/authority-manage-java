@@ -71,12 +71,6 @@ public class EmpInfoController extends BaseController {
 
 			}
 		}
-//	
-//			result.forEach(a -> {
-//				if (!a.getRoleId().contains(list.getRoleId())) {
-//					newResult.add(a);
-//				}
-//			});
 
 		return success(result);
 	}
