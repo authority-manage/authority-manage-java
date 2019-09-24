@@ -39,6 +39,8 @@ public class JGroupModelInfo extends GroupInfoWithBLOBs{
 	
 	}
 
+
+
 	public Integer getParentId() {
 		return parentId;
 	}

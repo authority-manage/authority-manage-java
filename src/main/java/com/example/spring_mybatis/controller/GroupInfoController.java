@@ -17,55 +17,62 @@ import com.example.spring_mybatis.model.UserInfoWithBLOBs;
 
 @RequestMapping("/groupInfo")
 @RestController
-public class GroupInfoController extends BaseController{
-	@RequestMapping(value="/selectGroupnfoNoAddGroupInfo",method=RequestMethod.GET)
-	public ResultDTO selectAllNoaddRoleInfo(@RequestParam("userId")String userId) {
+public class GroupInfoController extends BaseController {
+	@RequestMapping(value = "/selectGroupnfoNoAddGroupInfo", method = RequestMethod.GET)
+	public ResultDTO selectAllNoaddRoleInfo(@RequestParam("userId") String userId) {
 		List<GroupInfoWithBLOBs> result = serviceFacade.getGroupInfoService().selectNoAddGroupInfo(userId);
 		return success(result);
 	}
+
 	@RequestMapping(value = "/selectGroupInfoByGroupId", method = RequestMethod.GET)
 	public ResultDTO slectGroupInfoByGroupId(@RequestParam("groupId") String groupId) {
 		List<GroupInfo> result = serviceFacade.getGroupInfoService().selectGroupInfoByUserGroupId(groupId);
 		return success(result);
 	}
+
 	@RequestMapping(value = "/updateByPrimaryKeySelective", method = RequestMethod.POST)
 	public ResultDTO updateByPrimaryKeySelective(@RequestBody GroupInfoWithBLOBs record) {
 		int result = serviceFacade.getGroupInfoService().updateByPrimaryKeySelective(record);
 		return success(result);
 	}
+
 	@RequestMapping(value = "/deleteByPrimaryKey/{groupId}", method = RequestMethod.POST)
 	public ResultDTO deleteByPrimaryKey(@PathVariable("groupId") Integer groupId) {
 		int result = serviceFacade.getGroupInfoService().deleteByPrimaryKey(groupId);
-		serviceFacade.getJGroupModelInfoService().deleteByPrimaryKey(groupId);
-		List<UserInfoWithBLOBs> userListAll = serviceFacade.getUserInfoService().selectUserInfoAll();
-		userListAll.forEach(a -> {
-			System.out.println(groupId);
-			if (a.getGroupId().contains(String.valueOf(groupId))) {
-				String str = a.getGroupId();
-				if (!str.contains(",")) {
-					a.setGroupId(a.getGroupId().replace(str, ""));
-					serviceFacade.getUserInfoService().updateGroupIdByUserId(a);
-				} else {
-					String[] arr = str.split(",");
-					str = "";
-					for (int i = 0; i < arr.length; i++) {
-						if (str.equals("")) {
-							if (!arr[i].equals(String.valueOf(groupId))) {
-								str = arr[i];
-							}
-						} else {
-							if (!arr[i].equals(String.valueOf(groupId))) {
-								str = str + "," + arr[i];
+		try {
+			serviceFacade.getJGroupModelInfoService().deleteByPrimaryKey(groupId);
+			List<UserInfoWithBLOBs> userListAll = serviceFacade.getUserInfoService().selectUserInfoAll();
+			userListAll.forEach(a -> {
+				System.out.println(groupId);
+				if (a.getGroupId().contains(String.valueOf(groupId))) {
+					String str = a.getGroupId();
+					if (!str.contains(",")) {
+						a.setGroupId(a.getGroupId().replace(str, ""));
+						serviceFacade.getUserInfoService().updateGroupIdByUserId(a);
+					} else {
+						String[] arr = str.split(",");
+						str = "";
+						for (int i = 0; i < arr.length; i++) {
+							if (str.equals("")) {
+								if (!arr[i].equals(String.valueOf(groupId))) {
+									str = arr[i];
+								}
+							} else {
+								if (!arr[i].equals(String.valueOf(groupId))) {
+									str = str + "," + arr[i];
+								}
 							}
 						}
+
+						a.setGroupId(str);
+						serviceFacade.getUserInfoService().updateGroupIdByUserId(a);
 					}
 
-					a.setGroupId(str);
-					serviceFacade.getUserInfoService().updateGroupIdByUserId(a);
 				}
-
-			}
-		});
+			});
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return success(0);
 	}
 
@@ -75,24 +82,28 @@ public class GroupInfoController extends BaseController{
 
 		return record.getGroupId();
 	}
+
 	@RequestMapping(value = "/selectAllGroupInfo", method = RequestMethod.GET)
 	public ResultDTO selectAllGroupInfo() {
 		List<GroupInfoWithBLOBs> list = serviceFacade.getGroupInfoService().selectAllGroupInfo();
-		return success(list); 
+		return success(list);
 	}
+
 	@RequestMapping(value = "/selectByPrimaryKey", method = RequestMethod.GET)
 	public ResultDTO selectByPrimaryKey(@RequestParam("groupId") Integer groupId) {
 		GroupInfoWithBLOBs result = serviceFacade.getGroupInfoService().selectByPrimaryKey(groupId);
 		return success(result);
 	}
+
 	@RequestMapping(value = "/selectGroupInfoByGroupName", method = RequestMethod.GET)
 	public ResultDTO selectAllGroupInfoByGroupName(@RequestParam("groupName") String groupName) {
 		List<GroupInfo> list = serviceFacade.getGroupInfoService().selectGroupInfoByGroupName(groupName);
-		if(list.isEmpty()||list==null) {
+		if (list.isEmpty() || list == null) {
 			return noData();
 		}
 		return success(list);
 	}
+
 	@RequestMapping(value = "/updateRoleId", method = RequestMethod.POST)
 	public ResultDTO updateRoleId(@RequestBody GroupInfoWithBLOBs record) {
 		int result = 0;

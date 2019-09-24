@@ -145,7 +145,9 @@ public class JGroupModelInfoController extends BaseController {
 						}
 						item.setAuthorization(splitStr);
 					});
-					return success(groupModelList);
+					List<JGroupModelInfo> result = new ArrayList<JGroupModelInfo>();
+					 f = toSort(groupModelList, result, 0);
+					return success(f);
 				} else {
 					groupModelList.forEach(item -> {
 						StringBuffer allStr = new StringBuffer(item.getAuthorization());
@@ -185,16 +187,8 @@ public class JGroupModelInfoController extends BaseController {
 			List<JGroupModelInfo> all = serviceFacade.getJGroupModelInfoService().selectModelInfoAll();
 			List<JGroupModelInfo> result = new ArrayList<JGroupModelInfo>();
 			List<JGroupModelInfo> f = toSort(all, result, 0);
-			List<String> names = new ArrayList<>();
-			List<Integer> ids = new ArrayList<>();
-			List<JGroupModelInfo> personList = result.stream().filter(// 过滤去重
-					v -> {
-						boolean flag = !names.contains(v.getModelName());
-
-						names.add(v.getModelName());
-						return flag;
-					}).collect(Collectors.toList());
-			personList.forEach(item -> {
+			
+			f.forEach(item -> {
 				String splitStr = "";
 				for (int i = 0; i < item.getAuthorization().length(); i++) {
 					if (splitStr.equals("")) {
@@ -205,7 +199,7 @@ public class JGroupModelInfoController extends BaseController {
 				}
 				item.setAuthorization(splitStr);
 			});
-			return success(personList);
+			return success(f);
 		}
 
 	}

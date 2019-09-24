@@ -98,7 +98,7 @@ public class EmpInfoController extends BaseController {
 		List<NewTwo> result = null;
 		GroupInfoWithBLOBs list = serviceFacade.getGroupInfoService().selectByPrimaryKey(groupId);
 		if (list.getRoleId().isEmpty()) {
-			result = serviceFacade.getNewTwoService().selectRoleAll();
+			result = serviceFacade.getNewTwoService().selectRoleAllByRoleName(roleName);
 		} else {
 			result = serviceFacade.getNewTwoService().selectRoleAllByRoleName(roleName);
 			if (list.getRoleId().contains(",")) {
