@@ -41,7 +41,6 @@
         </javaClientGenerator>
 
         <!-- 生成DAO的类文件以及配置文件 -->
- 
-      
+        
     </context>
 </generatorConfiguration>
