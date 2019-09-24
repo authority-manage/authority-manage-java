@@ -41,7 +41,7 @@ public class EmpInfoServiceImpl implements IEmpInfoService {
 			String departmentId) {
 		PageHelper.startPage(pageNum, pageSize);
 
-		String key = "emp_serch";
+		String key = "emp_serch"+"-page-"+pageNum;
 		if (empNum != "") {
 			key += "-empNum-" + empNum;
 		}
@@ -51,6 +51,7 @@ public class EmpInfoServiceImpl implements IEmpInfoService {
 		if (departmentId != "") {
 			key += "-departmentId-" + departmentId;
 		}
+		
 		
 		if (redisUtilService.lGetListSize(key) != 0) {
 			List<EmpInfo> empList = redisUtilService.lGet(key, 0, -1);
