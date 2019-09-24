@@ -35,6 +35,9 @@ import com.example.spring_mybatis.model.UserInfoWithBLOBs;
 @RestController
 @RequestMapping("/modelInfo")
 public class ModelInfoController extends BaseController {
+	List<ModelInfo> son = new ArrayList<ModelInfo>();
+	boolean check = true;
+	
 	@RequestMapping(value = "/insertModelInfo", method = RequestMethod.POST)
 	public ResultDTO insertModelInfo(ModelInfo record) {
 		int result = serviceFacade.getModelInfoService().insertSelective(record);
@@ -66,7 +69,41 @@ public class ModelInfoController extends BaseController {
 		int result = serviceFacade.getModelInfoService().updateByPrimaryKeySelective(record);
 		return success(result);
 	}
+//	检测是否选择子ID
+//	modelId是本身ID
+//	parentId是选择上级部门的ID
+	@RequestMapping(value = "/checkSon", method = RequestMethod.GET)
+	public ResultDTO checkSon(@RequestParam("parentId") Integer parentId, @RequestParam("modelId") Integer modelId) {
+		check = true;
+		son.clear();
+		dg(parentId);
+		son.forEach(item -> {
+			if (item.getParentId() == modelId ) {
+				check = false;
+			}
+			
+		});
+		if(modelId == serviceFacade.getModelInfoService().selectByPrimaryKey(parentId).getParentId()) {
+			check = false;
+		}
 
+		if (check) {
+			return success(0);
+		} else {
+			return checkSon(0);
+		}
+
+	}
+
+	public void dg(Integer parentId) {
+		List<ModelInfo> allSon = serviceFacade.getModelInfoService().selectByParentId(parentId);
+
+		allSon.forEach(item -> {
+			son.add(item);
+			dg(item.getModelId());
+		});
+	}
+	
 	@RequestMapping(value = "/deleteModelInfo", method = RequestMethod.POST)
 	public ResultDTO deleteModelInfo(@RequestParam("modelId") Integer modelId) {
 		int i = serviceFacade.getModelInfoService().deleteByPrimaryKey(modelId);
