@@ -19,6 +19,8 @@ public interface DepartmentInfoMapper {
 
     int updateByPrimaryKeyWithBLOBs(DepartmentInfo record);
 
+    List<DepartmentInfo> selectByParentId(String department);
+    
     int updateByPrimaryKey(DepartmentInfo record);
     
 

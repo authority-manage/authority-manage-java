@@ -26,15 +26,18 @@ import com.example.spring_mybatis.service.iface.IDepartmentInfoService;
 @RestController
 @RequestMapping("/departmentInfo")
 public class DepartmentInfoController extends BaseController {
-
+	
 	@Resource
 	private IDepartmentInfoService departmentInfoService;
+
+
 
 	@RequestMapping(value = "/selectAllDepartmentName", method = RequestMethod.GET)
 	public ResultDTO selectAllDepartmentName() {
 		List<DepartmentInfo> result = serviceFacade.getDepartmentInfoService().selectAllDepartmentName();
 		return success(result);
 	}
+
 	@RequestMapping(value = "/selectAllDepartmentNameAll", method = RequestMethod.GET)
 	public ResultDTO selectAllDepartmentNameAll() {
 		List<DepartmentInfo> result = serviceFacade.getDepartmentInfoService().selectAllDepartmentNameAll();
@@ -78,8 +81,9 @@ public class DepartmentInfoController extends BaseController {
 	@RequestMapping(value = "/updateByPrimaryKeySelective", method = RequestMethod.POST)
 	public ResultDTO update(@RequestBody DepartmentInfo departmentInfo) {
 		int result = serviceFacade.getDepartmentInfoService().updateByPrimaryKeySelective(departmentInfo);
-		return success(result);
+		return success(0);
 	}
+	
 
 	@RequestMapping(value = "/updateIsDel", method = RequestMethod.POST)
 	public ResultDTO updateByPrimaryKeySelective(@RequestParam("departmentId") String departmentId) {

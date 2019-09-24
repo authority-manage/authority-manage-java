@@ -21,6 +21,9 @@ public class BaseController {
 	protected <T> ResultDTO<T> success(T data) {
 		return new ResultDTO<>(ResultEmun.SUCCESS, data);
 	}
+	protected <T> ResultDTO<T> checkSon(T data) {
+		return new ResultDTO<>(ResultEmun.CHECKSON, data);
+	}
 
 	protected <T> ResultDTO<T> check(T data) {
 		return new ResultDTO<>(ResultEmun.CF, data);
