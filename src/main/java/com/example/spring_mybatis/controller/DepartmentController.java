@@ -23,6 +23,7 @@ import com.example.spring_mybatis.model.EmpInfo;
 public class DepartmentController extends BaseController {
 	List<DepartmentInfo> son = new ArrayList<DepartmentInfo>();
 	boolean check = true;
+
 	// 部门管理添加
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResultDTO add(@RequestBody Department departmentInfo) {
@@ -50,34 +51,37 @@ public class DepartmentController extends BaseController {
 	}
 
 	@RequestMapping(value = "/checkSon", method = RequestMethod.GET)
-	public ResultDTO checkSon(@RequestParam("departmentId") String departmentId,
-			@RequestParam String departmentId1) {
+	public ResultDTO checkSon(@RequestParam("departmentId") String departmentId, @RequestParam("departmentId1") String departmentId1) {
 		check = true;
 		son.clear();
 		dg(departmentId);
-		System.out.println(departmentId1 + " 我要修改的id");
+		System.out.println("本身ID:" + departmentId);
 		son.forEach(item -> {
-			System.out.println(item.getDepartmentName() + item.getParentId() + "    子集父id");
-			if (item.getParentId().equals(departmentId1)) {
+			System.out.println(item.getDepartmentName() + "  父ID：" + item.getParentId());
+			if (item.getParentId().equals(departmentId1) ) {
 				check = false;
 			}
+			
 		});
-		if(check) {
+		if(departmentId1.equals(serviceFacade.getDepartmentInfoService().selectByPrimaryKey(departmentId).get(0).getParentId())) {
+			check = false;
+		}
+
+		if (check) {
 			return success(0);
-		}else {
+		} else {
 			return checkSon(0);
 		}
-		
 
 	}
 
 	public void dg(String departmentId) {
 		List<DepartmentInfo> allSon = serviceFacade.getDepartmentInfoService().selectByParentId(departmentId);
+
 		allSon.forEach(item -> {
 			son.add(item);
 			dg(item.getDepartmentId());
 		});
-
 	}
 
 	// 部门管理删除（用修改来完成）
