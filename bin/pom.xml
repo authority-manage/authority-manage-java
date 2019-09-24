@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>spring_mybatis</artifactId>
+	<artifactId>authority-manage-java</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring_mybatis</name>
+	<name>authority-manage-java</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
