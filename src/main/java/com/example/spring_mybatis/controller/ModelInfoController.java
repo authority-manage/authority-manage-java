@@ -37,11 +37,11 @@ import com.example.spring_mybatis.model.UserInfoWithBLOBs;
 public class ModelInfoController extends BaseController {
 	List<ModelInfo> son = new ArrayList<ModelInfo>();
 	boolean check = true;
-	
+
 	@RequestMapping(value = "/insertModelInfo", method = RequestMethod.POST)
 	public ResultDTO insertModelInfo(ModelInfo record) {
 		int result = serviceFacade.getModelInfoService().insertSelective(record);
-		
+
 		List<GroupInfoWithBLOBs> groupList = serviceFacade.getGroupInfoService().selectAllGroupInfo();
 
 		groupList.forEach(a -> {
@@ -69,6 +69,7 @@ public class ModelInfoController extends BaseController {
 		int result = serviceFacade.getModelInfoService().updateByPrimaryKeySelective(record);
 		return success(result);
 	}
+
 //	检测是否选择子ID
 //	modelId是本身ID
 //	parentId是选择上级部门的ID
@@ -78,12 +79,12 @@ public class ModelInfoController extends BaseController {
 		son.clear();
 		dg(parentId);
 		son.forEach(item -> {
-			if (item.getParentId() == modelId ) {
+			if (item.getParentId() == modelId) {
 				check = false;
 			}
-			
+
 		});
-		if(modelId == serviceFacade.getModelInfoService().selectByPrimaryKey(parentId).getParentId()) {
+		if (modelId == serviceFacade.getModelInfoService().selectByPrimaryKey(parentId).getParentId()) {
 			check = false;
 		}
 
@@ -103,7 +104,7 @@ public class ModelInfoController extends BaseController {
 			dg(item.getModelId());
 		});
 	}
-	
+
 	@RequestMapping(value = "/deleteModelInfo", method = RequestMethod.POST)
 	public ResultDTO deleteModelInfo(@RequestParam("modelId") Integer modelId) {
 		int i = serviceFacade.getModelInfoService().deleteByPrimaryKey(modelId);
@@ -118,23 +119,18 @@ public class ModelInfoController extends BaseController {
 	public ResultDTO deleteOtherModel(Integer modelId) {
 		int j = 0;
 		List<ModelInfo> list = serviceFacade.getModelInfoService().selectByParentId(modelId);
-		
-		for(int i = 0 ; i < list.size();i++) {
+
+		for (int i = 0; i < list.size(); i++) {
 			j = serviceFacade.getModelInfoService().deleteByPrimaryKey(list.get(i).getModelId());
 			deleteModelInfo(list.get(i).getModelId());
 		}
 		return success(j);
-		
-		
-		
-		
 //		serviceFacade.getModelInfoService().deleteByPrimaryKey(modelId);
-
 	}
 
 	@RequestMapping(value = "/selectModelInfo", method = RequestMethod.GET)
 	public ResultDTO selectModelInfo(@RequestParam("modelId") Integer modelId) {
-		
+
 		ModelInfo result = serviceFacade.getModelInfoService().selectByPrimaryKey(modelId);
 
 		return success(result);
@@ -142,7 +138,7 @@ public class ModelInfoController extends BaseController {
 
 	@RequestMapping(value = "/selectAllModelInfoList", method = RequestMethod.GET)
 	public ResultDTO selectAllModelInfo() {
-		
+
 		List<ModelInfo> all = serviceFacade.getModelInfoService().selectAllModelInfo();
 		List<ModelInfo> result = new ArrayList<ModelInfo>();
 		List<ModelInfo> f = toSort(all, result, 0);
