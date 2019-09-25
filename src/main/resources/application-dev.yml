@@ -7,7 +7,11 @@ spring:
   datasource:
     username: root
     password: 123456
+
     url: jdbc:mysql://localhost:3306/manage_system?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+
+    url: jdbc:mysql://localhost:3306/manage_system?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       connection-timeout: 3000
