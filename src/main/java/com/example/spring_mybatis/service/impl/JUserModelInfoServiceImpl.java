@@ -44,8 +44,13 @@ public class JUserModelInfoServiceImpl implements IJUserModelInfoService {
 				param.setUserId(userId);
 				param.setModelId(Integer.valueOf(modleList.get(i)));
 				param.setAuthorization(autTemp.get(i));
-				jUserModelInfoExtendMapper.updateUserModelInfoByUserId(userId, param.getModelId(),
-						param.getAuthorization());
+				if(jUserModelInfoExtendMapper.selectJUserModelInfoByModelId(Integer.valueOf(modleList.get(i))).size()!=0){
+					jUserModelInfoExtendMapper.updateUserModelInfoByUserId(userId, param.getModelId(),
+							param.getAuthorization());
+				}else {
+					jUserModeInfoMapper.insert(param);
+				}
+				
 			}
 		}
 

@@ -11,4 +11,5 @@ public interface JUserModelInfoExtendMapper {
 	int insertUserModelInfo(String userId,int modelId,String authorization);
 	int updateUserModelInfoByUserId(String userId,int modelId,String authorization);
 	List<JUserModelInfo> selectJUserModelInfoByUserId(String userId);
+	List<JUserModelInfo> selectJUserModelInfoByModelId(Integer modelId);
 }
