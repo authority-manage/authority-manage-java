@@ -53,22 +53,22 @@ public class EmpInfoServiceImpl implements IEmpInfoService {
 		}
 		
 		
-		if (redisUtilService.lGetListSize(key) != 0) {
-			List<EmpInfo> empList = redisUtilService.lGet(key, 0, -1);
-			PageInfo<EmpInfo> result = new PageInfo<>(empList);	
-			System.out.println(key);
-			System.out.println("REDIS------TIEM"+redisUtilService.getExpire(key));
-			return result;
-		} else {
+//		if (redisUtilService.lGetListSize(key) != 0) {
+//			List<EmpInfo> empList = redisUtilService.lGet(key, 0, -1);
+//			PageInfo<EmpInfo> result = new PageInfo<>(empList);	
+//			System.out.println("59:"+key);
+//			System.out.println("60:"+"REDIS------TIEM"+redisUtilService.getExpire(key));
+//			return result;
+//		} else {
 			List<EmpInfo> empList = connectEmpInfoMapper.selectByNumNameDepartmentId(empNum, empName, departmentId);
 			redisUtilService.lSet(key, empList, 10);
 			
 			PageInfo<EmpInfo> result = new PageInfo<>(empList);
-			System.out.println(key);
-			System.out.println("Mapper");
+			System.out.println("67:"+key);
+			System.out.println("68:"+"Mapper");
 			return result;
 			
-		}
+//		}
 
 	}
 
