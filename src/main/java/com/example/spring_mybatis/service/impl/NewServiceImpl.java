@@ -46,9 +46,6 @@ public class NewServiceImpl implements NewService {
 				if (item.getGroupId().contains(groupId)) {
 					result.add(item);
 				}
-				if(item.getGroupId().isEmpty()|| item.getGroupId().equals("")) {
-					result.add(item);
-				}
 			});
 		} catch (Exception e) {
 			// TODO: handle exception
